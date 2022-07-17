@@ -16,7 +16,7 @@ Example for Maven, using the author's personal repo:
 	<dependency>
 		<groupId>net.ssterling</groupId>
 		<artifactId>bukkitversion</artifactid>
-		<version>latest</version> <!-- or whatever -->
+		<version>0.1.0</version> <!-- or whatever -->
 		<scope>compile</scope>
 	</dependency>
 </dependencies>
@@ -28,6 +28,9 @@ Example for Maven, using the author's personal repo:
 	</repository>
 </repositories>
 ```
+
+For a thorough explanation of how to use the library itself
+in your code, refer to the [Javadocs](//www.ssterling.net/comp/javadoc/bukkitversion/).
 
 Contributing
 ------------
