@@ -1,0 +1,8 @@
+name: BukkitVersion
+author: ssterling
+version: ${project.version}
+description: ${project.description}
+website: ${project.url}
+
+main: net.ssterling.bukkitversion.BukkitVersionPlugin
+api-version: 1.19

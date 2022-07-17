@@ -6,7 +6,7 @@
 
 	<name>BukkitVersion</name>
 	<description>Utilities for Minecraft server version info</description>
-	<version>0.1.0</version>
+	<version>0.2.0-alpha1</version>
 	<url>https://www.gitlab.com/ssterling/bukkitversion/</url>
 
 	<properties>
@@ -80,6 +80,12 @@
 			<version>2.29.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.bstats</groupId>
+			<artifactId>bstats-bukkit</artifactId>
+			<version>3.0.0</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -92,6 +98,27 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<configuration>
+					<minimizeJar>true</minimizeJar>
+					<relocations>
+						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>net.ssterling.bukkitversion</shadedPattern>
+						</relocation>
+					</relocations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -132,6 +159,12 @@
 				<version>3.5.2</version>
 			</extension>
 		</extensions>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 
 	<distributionManagement>
