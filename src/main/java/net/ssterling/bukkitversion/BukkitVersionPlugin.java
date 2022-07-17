@@ -34,9 +34,9 @@ import org.bstats.bukkit.Metrics;
  * This is a common alternative to including an API directly in a project
  * in typical fashion.
  *
- * <p>Add/replace the following under the BukkitVersion dependency in your
- * {@code pom.xml} (or do the equivalent on Gradle):
- * <pre><code class="xml">&lt;scope&gt;system&lt;/scope&gt;</code></pre>
+ * <p>For Maven users: change the dependency scope for BukkitVersion in your
+ * plugin’s {@code pom.xml}:
+ * <pre><code class="xml">&lt;scope&gt;provided&lt;/scope&gt;</code></pre>
  * Also, add the following to your plugin’s {@code plugin.yml}:
  * <pre><code class="yaml">depend: [BukkitVersion]</code></pre>
  * You can now use the BukkitVersion API without including the entire package
