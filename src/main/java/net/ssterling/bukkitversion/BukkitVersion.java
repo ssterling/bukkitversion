@@ -496,7 +496,7 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 		 * hardcoded (as opposed to some kind of online lookup) */
 		int offset = 0;
 		int compare_offset = 0;
-		if (compareTo(new BukkitVersion("1.19.1")) == 0) {
+		if (compare.toString().matches("^1.19.1(?:-.+)?$")) {
 			// -pre1, -rc1, -pre2, -pre3, -pre4, -rc2 …
 			if (prerelease > 1) {
 				/* Offsets pre-releases other than 1.19.1-pre1
@@ -510,7 +510,7 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 				offset = RC_OFFSET + 100;
 			}
 		}
-		if (compare.compareTo(new BukkitVersion("1.19.1")) == 0) {
+		if (compare.toString().matches("^1.19.1(?:-.+)?$")) {
 			if (compare.getPrerelease() > 1) {
 				// Same as above
 				compare_offset = RC_OFFSET + 1;
