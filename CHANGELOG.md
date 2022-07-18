@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v0.2.1 (2022/07/18)
+-------------------
+
+* Fix bug in `compareTo()` which caused infinite loop
+  as well as other defined behaviour
+
 v0.2.0 (2022/07/17)
 -------------------
 
