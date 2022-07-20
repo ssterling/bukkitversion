@@ -61,6 +61,9 @@ class KnownValuesTest
 		/** Whether the construction of {@link BukkitVersion} should fail. */
 		public boolean should_fail;
 
+		/** The expected value of {@link BukkitVersion#beta}. */
+		public boolean beta;
+
 		/** The expected value of {@link BukkitVersion#major}. */
 		public Integer major;
 
@@ -91,6 +94,7 @@ class KnownValuesTest
 		 *
 		 * @param	version_string the version string with which to
 		 *		construct a {@code BukkitVersion} instance
+		 * @param	beta true if version is beta, false otherwise
 		 * @param	major expected major version number
 		 * @param	minor expected minor version number
 		 * @param	patch expected patch version number ({@code null} if none)
@@ -101,6 +105,7 @@ class KnownValuesTest
 		 * @param	vanilla_string expected vanilla version string
 		 */
 		public VersionUnit(final String version_string,
+				final boolean beta,
 				final Integer major, final Integer minor,
 				final Integer patch, final Integer prerelease,
 				final Integer release_candidate,
@@ -110,6 +115,7 @@ class KnownValuesTest
 		{
 			this.version_string = version_string;
 			this.should_fail = false;
+			this.beta = beta;
 			this.major = major;
 			this.minor = minor;
 			this.patch = patch;
@@ -137,12 +143,12 @@ class KnownValuesTest
 
 	private final VersionUnit[] versions = {
 		// Arbitrarily chosen
-		new VersionUnit("1.8-R0.1-SNAPSHOT", 1, 8, null, null, null, 0, 1, "1.8"),
-		new VersionUnit("1.9.4-R0.1-SNAPSHOT", 1, 9, 4, null, null, 0, 1, "1.9.4"),
-		new VersionUnit("1.12-pre3-SNAPSHOT", 1, 12, null, 3, null, null, null, "1.12-pre3"),
-		new VersionUnit("1.13-pre7-R0.1-SNAPSHOT", 1, 13, null, 7, null, 0, 1, "1.13-pre7"),
-		new VersionUnit("1.14.3-SNAPSHOT", 1, 14, 3, null, null, null, null, "1.14.3"),
-		new VersionUnit("1.18-rc3-R0.1-SNAPSHOT", 1, 18, null, null, 3, 0, 1, "1.18-rc3"),
+		new VersionUnit("1.8-R0.1-SNAPSHOT", false, 1, 8, null, null, null, 0, 1, "1.8"),
+		new VersionUnit("1.9.4-R0.1-SNAPSHOT", false, 1, 9, 4, null, null, 0, 1, "1.9.4"),
+		new VersionUnit("1.12-pre3-SNAPSHOT", false, 1, 12, null, 3, null, null, null, "1.12-pre3"),
+		new VersionUnit("1.13-pre7-R0.1-SNAPSHOT", false, 1, 13, null, 7, null, 0, 1, "1.13-pre7"),
+		new VersionUnit("1.14.3-SNAPSHOT", false, 1, 14, 3, null, null, null, null, "1.14.3"),
+		new VersionUnit("1.18-rc3-R0.1-SNAPSHOT", false, 1, 18, null, null, 3, 0, 1, "1.18-rc3"),
 	};
 
 	/**
@@ -156,6 +162,25 @@ class KnownValuesTest
 	 */
 	private static void assertComponentMatch(final Integer expected,
 			final Integer actual, final String type,
+			final String version_string)
+	{
+		final String message = type +
+			" components do not match using version string "
+			+ version_string;
+		assertEquals(expected, actual, message);
+	}
+
+	/**
+	 * Asserts that expected component value for a given version
+	 * is correctly deduced by {@link BukkitVersion}.
+	 *
+	 * @param	expected expected value
+	 * @param	actual actual value
+	 * @param	type string representation of component type
+	 * @param	version_string version string used to get results
+	 */
+	private static void assertComponentMatch(final boolean expected,
+			final boolean actual, final String type,
 			final String version_string)
 	{
 		final String message = type +
@@ -196,6 +221,7 @@ class KnownValuesTest
 			}
 
 			// TODO: better source formatting
+			assertComponentMatch(unit.beta, version.isBeta(), "beta", unit.version_string);
 			assertComponentMatch(unit.major, version.getMajor(), "major", unit.version_string);
 			assertComponentMatch(unit.minor, version.getMinor(), "minor", unit.version_string);
 			assertComponentMatch(unit.patch, version.getPatch(), "patch", unit.version_string);

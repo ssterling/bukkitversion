@@ -78,6 +78,11 @@ import org.bukkit.Bukkit;
 public final class BukkitVersion implements Comparable<BukkitVersion>
 {
 	/**
+	 * Whether the version is a beta release (e.g. {@code b1.7.3}).
+	 */
+	protected boolean beta;
+
+	/**
 	 * The major version number.
 	 * Assumed to always be present, and of value {@code 1}
 	 * for the forseeable future.
@@ -150,7 +155,7 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 	 *
 	 * @author Seth Price
 	 */
-	private static final Pattern PATTERN = Pattern.compile("^(?<major>\\d+)(?:\\.(?<minor>\\d+)(?:(?:\\.(?<patch>[0-9]+))?(?:(?:-pre(?<pre>\\d))|(?:-rc(?<rc>\\d+))?)?(?:-R(?<revisionmajor>\\d)(?:.(?<revisionminor>\\d))?)?(?<snapshot>-SNAPSHOT)?)?)?$");
+	private static final Pattern PATTERN = Pattern.compile("^(?<beta>b)?(?<major>\\d+)(?:\\.(?<minor>\\d+)(?:(?:\\.(?<patch>[0-9]+))?(?:(?:-pre(?<pre>\\d))|(?:-rc(?<rc>\\d+))?)?(?:-R(?<revisionmajor>\\d)(?:.(?<revisionminor>\\d))?)?(?<snapshot>-SNAPSHOT)?)?)?$");
 
 	/**
 	 * Creates an instance of {@code BukkitVersion} by parsing the value
@@ -168,7 +173,26 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 		try {
 			fromString(Bukkit.getBukkitVersion(), true);
 		} catch (NoSuchMethodError ex) {
-			throw new NoSuchMethodError("cannot find Bukkit API");
+			// Not Minecraft 1.0 and above, at least
+			try {
+				Pattern pattern = Pattern.compile("^.*\\(MC: 1\\.(?<minor>\\d)(?:\\.(?<patch>\\d))?\\)$");
+				String version = Bukkit.getVersion();
+				Matcher matcher = pattern.matcher(version);
+
+				if (!matcher.matches()) {
+					throw new IllegalArgumentException("unhandled beta version");
+				}
+
+				beta = true;
+				major = 1;
+				minor = Integer.parseInt(matcher.group("minor"));
+				if (matcher.group("patch") != null) {
+					patch = Integer.parseInt(matcher.group("patch"));
+				}
+			} catch (NoSuchMethodError exx) {
+				// This would be highly unusual
+				throw new NoSuchMethodError("cannot find Bukkit API");
+			}
 		}
 	}
 
@@ -219,6 +243,7 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 	 * @param	release_candidate release candidate number ({@code null} if none)
 	 * @param	revision_major revision number major component ({@code null} if none)
 	 * @param	revision_minor revision number minor component ({@code null} if none)
+	 * @param	beta true if version is beta, false otherwise
 	 * @throws	NullPointerException if any of the following parameters
 	 *		are null: {@code major}, {@code minor}
 	 * @throws	IllegalArgumentException if both {@code prerelease} and
@@ -227,7 +252,8 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 	 */
 	public BukkitVersion(final Integer major, final Integer minor, final Integer patch,
 			final Integer prerelease, final Integer release_candidate,
-			final Integer revision_major, final Integer revision_minor)
+			final Integer revision_major, final Integer revision_minor,
+			final boolean beta)
 	{
 		if (major == null || minor == null) {
 			throw new IllegalArgumentException("major and minor version numbers are required parameters");
@@ -235,6 +261,7 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 			throw new IllegalArgumentException("pre-releases and release candidates are mutually exclusive");
 		}
 
+		this.beta = beta;
 		this.major = major;
 		this.minor = minor;
 		this.patch = patch;
@@ -292,6 +319,9 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 			throw new IllegalArgumentException("invalid Bukkit API version");
 		}
 
+		if (matcher.group("beta") != null) {
+			beta = true;
+		}
 		major = Integer.parseInt(matcher.group("major"));
 		if (matcher.group("minor") != null) {
 			minor = Integer.parseInt(matcher.group("minor"));
@@ -311,6 +341,17 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 		if (matcher.group("revisionminor") != null) {
 			revision_minor = Integer.parseInt(matcher.group("revisionminor"));
 		}
+	}
+
+	/**
+	 * Gets the beta status.
+	 *
+	 * @return	true if version is beta, false otherwise
+	 * @since 0.3.0
+	 */
+	public boolean isBeta()
+	{
+		return beta;
 	}
 
 	/**
@@ -430,7 +471,8 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 	 */
 	public String toVanillaString()
 	{
-		return major + "." + minor
+		return (beta == true ? "b" : "")
+			+ major + "." + minor
 			+ (patch == null ? "" : "." + patch)
 			+ (prerelease == null ? "" : "-pre" + prerelease)
 			+ (release_candidate == null ? "" : "-rc" + release_candidate);
@@ -522,20 +564,26 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 		}
 
 		// XXX: technically correct but extremely nonintuitive
-		if (major > compare.getMajor()) {
+		if (!beta && compare.isBeta()) {
+			return 1;
+		} else if (beta && !compare.isBeta()) {
+			return -1;
+		} else if (granularity.compareTo(Component.MAJOR) > 1) {
+			/* Same up to this point, and granularity dictates
+			 * we not compare past this, so return 0 (same) */
+			return 0;
+		} else if (major > compare.getMajor()) {
 			return 1;
 		} else if (major < compare.getMajor()) {
 			return -1;
 		} else if (granularity.compareTo(Component.MINOR) > 1) {
-			/* Same up to this point, and granularity dictates
-			 * we not compare past this, so return 0 (same) */
+			/* …and so on */
 			return 0;
 		} else if (minor > compare.getMinor()) {
 			return 1;
 		} else if (minor < compare.getMinor()) {
 			return -1;
 		} else if (granularity.compareTo(Component.PATCH) > 1) {
-			/* …and so on */
 			return 0;
 		} else if (patch > compare.getPatch()) {
 			return 1;
