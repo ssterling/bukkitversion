@@ -52,4 +52,22 @@ public final class VersionUtil
 	{
 		return new BukkitVersion(version, true).toVanillaString();
 	}
+
+	/**
+	 * Determines whether a class is available for use at runtime.
+	 * Useful for detecting whether a specific API is present.
+	 *
+	 * @param	class_name name of class
+	 * @return	true if {@code class_name} class exists, false otherwise
+	 * @since 0.3.0
+	 */
+	public static boolean classExists(String class_name)
+	{
+		try {
+			Class.forName(class_name);
+			return true;
+		} catch (ClassNotFoundException ex) {
+			return false;
+		}
+	}
 }
