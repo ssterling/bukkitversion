@@ -10,7 +10,7 @@
  *	&lt;dependency&gt;
  *		&lt;groupId&gt;net.ssterling&lt;/groupId&gt;
  *		&lt;artifactId&gt;bukkitversion&lt;/artifactid&gt;
- *		&lt;version&gt;0.2.1&lt;/version&gt; &lt;!-- or whatever --&gt;
+ *		&lt;version&gt;0.3.0&lt;/version&gt; &lt;!-- or whatever --&gt;
  *		&lt;scope&gt;compile&lt;/scope&gt;
  *	&lt;/dependency&gt;
  *&lt;/dependencies&gt;

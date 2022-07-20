@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v0.3.0 (2022/07/20)
+-------------------
+
+* Add support for (some) beta releases
+* Added more rigorous real-world version tests
+
 v0.2.1 (2022/07/18)
 -------------------
 
