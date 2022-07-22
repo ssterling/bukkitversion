@@ -53,9 +53,6 @@ public class BukkitVersionPlugin extends JavaPlugin
 	/** bStats plugin ID (for metrics). */
 	private static final int BSTATS_ID = 15810;
 
-	/** Spigot project ID (for update checker). */
-	private static final String PROJECT_ID = "55295";
-
 	/** Metrics object for bStats. */
 	private static Metrics metrics;
 
