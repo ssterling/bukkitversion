@@ -24,6 +24,8 @@
  */
 package net.ssterling.bukkitversion;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bstats.bukkit.Metrics;
 
@@ -68,17 +70,41 @@ public class BukkitVersionPlugin extends JavaPlugin
 			metrics = new Metrics(this, BSTATS_ID);
 		} catch (UnsupportedClassVersionError ex) {
 			// Bizarre edge case, but possible on old (nostalgia) servers
-			getLogger().warning("Cannot load bStats metrics class due to outdated JRE: " + System.getProperty("java.version"));
+			logMessage(Level.WARNING, "Cannot load bStats metrics class due to outdated JRE: " + System.getProperty("java.version"));
 		}
 
 		BukkitVersion version = null;
 		try {
 			version = new BukkitVersion();
-			getLogger().info("Detected Minecraft " + version.toVanillaString() +
+			logMessage(Level.INFO, "Detected Minecraft " + version.toVanillaString() +
 					", implementing Bukkit API " + version.toString());
 		} catch (Throwable ex) {
-			getLogger().warning("Failed to detect Bukkit API version by default means");
+			logMessage(Level.WARNING, "Failed to detect Bukkit API version by default means");
 			ex.printStackTrace();
 		}
+	}
+
+	/**
+	 * Logs a message to the console.
+	 *
+	 * <p>This method is a little expensive, but seldom used.
+	 *
+	 * @param	level level at which to print the message
+	 * @param	message the message to log
+	 */
+	private void logMessage(Level level, String message)
+	{
+		Logger logger = null;
+		String prefix = "";
+		try {
+			// Bukkit 1.1 and above
+			logger = getLogger();
+		} catch (NoSuchMethodError ex) {
+			// Bukkit 1.0 and below
+			prefix = "[BukkitVersion] ";
+			logger = Logger.getLogger(BukkitVersionPlugin.class.getCanonicalName());
+		}
+
+		logger.log(level, prefix + message);
 	}
 }
