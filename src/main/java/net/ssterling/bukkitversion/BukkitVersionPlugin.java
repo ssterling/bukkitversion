@@ -58,7 +58,7 @@ public class BukkitVersionPlugin extends JavaPlugin
 	private static Metrics metrics;
 
 	/**
-	 * Loads bStats metrics.
+	 * Loads bStats metrics and prints the server version.
 	 * No, really, that’s it.
 	 */
 	@Override
@@ -69,6 +69,16 @@ public class BukkitVersionPlugin extends JavaPlugin
 		} catch (UnsupportedClassVersionError ex) {
 			// Bizarre edge case, but possible on old (nostalgia) servers
 			getLogger().warning("Cannot load bStats metrics class due to outdated JRE: " + System.getProperty("java.version"));
+		}
+
+		BukkitVersion version = null;
+		try {
+			version = new BukkitVersion();
+			getLogger().info("Detected Minecraft " + version.toVanillaString() +
+					", implementing Bukkit API " + version.toString());
+		} catch (Throwable ex) {
+			getLogger().warning("Failed to detect Bukkit API version by default means");
+			ex.printStackTrace();
 		}
 	}
 }
