@@ -173,10 +173,20 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 		try {
 			fromString(Bukkit.getBukkitVersion(), true);
 		} catch (NoSuchMethodError ex) {
-			// Not Minecraft 1.0 and above, at least
+			// Beta 1.8.1 to Beta 1.7.3, at least
 			try {
 				Pattern pattern = Pattern.compile("^.*\\(MC: 1\\.(?<minor>\\d)(?:\\.(?<patch>\\d))?\\)$");
-				String version = Bukkit.getVersion();
+
+				String version = null;
+				try {
+					// Beta 1.8 thru 1.8.1
+					version = Bukkit.getVersion();
+				} catch (NoSuchMethodError exx) {
+					// Beta 1.7.3, possibly earlier
+					version = Bukkit.getServer().getVersion();
+					System.out.println("VER: " + version);
+				}
+				
 				Matcher matcher = pattern.matcher(version);
 
 				if (!matcher.matches()) {

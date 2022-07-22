@@ -16,7 +16,7 @@ Example for Maven, using the author's personal repo:
 	<dependency>
 		<groupId>net.ssterling</groupId>
 		<artifactId>bukkitversion</artifactid>
-		<version>0.3.0</version>
+		<version>0.3.1</version>
 		<scope>compile</scope>
 	</dependency>
 </dependencies>
