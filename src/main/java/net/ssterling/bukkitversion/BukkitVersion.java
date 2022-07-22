@@ -33,13 +33,8 @@ import org.bukkit.Bukkit;
  * The {@code BukkitVersion} class derives and contains the values
  * extrapolated from a Bukkit server string.
  *
- * <p>The simplest way to use this from within a Bukkit plugin is
- * by using the value of
- * {@link org.bukkit.Bukkit#getBukkitVersion() getBukkitVersion()}
- * to construct a {@code BukkitVersion} object, like such:
- * <code class="java">new BukkitVersion(Bukkit.getBukkitVersion());</code>.
- *
- * <p>For those who learn better by example, refer to the following
+ * <p>For those who learn better by example than from an admittedly
+ * complex Javadoc, refer to the following
  * example usage from within a Bukkit plugin:
  * <pre><code class="java">package net.ssterling.exampleplugin;
  *
@@ -60,12 +55,12 @@ import org.bukkit.Bukkit;
  *		}
  *
  *		// More typical format: specify just major.minor.patch
- *		if (version.compareTo(new BukkitVersion("1.2.5", false)) &gt;= 0) {
- *			getLogger().info("Running on 1.2.5 or above"); // (not a typo)
+ *		if (version.compareTo(new BukkitVersion("b1.7.3", false)) &gt;= 0) {
+ *			getLogger().info("Running on Beta 1.7.3 or above");
  *		}
  *
  *		// Comparison will stop at a certain point, in this case: minor version
- *		BukkitVersion ver = new BukkitVersion("1.8.8R1.0-SNAPSHOT", false);
+ *		BukkitVersion ver = new BukkitVersion("1.8.8-R1.0-SNAPSHOT");
  *		if (version.compareTo(ver, BukkitVersion.Component.MINOR) &lt; 0) {
  *			getLogger().info("Running below Minecraft 1.8");
  *		}
