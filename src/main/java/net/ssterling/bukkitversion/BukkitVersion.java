@@ -184,7 +184,6 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 				} catch (NoSuchMethodError exx) {
 					// Beta 1.7.3, possibly earlier
 					version = Bukkit.getServer().getVersion();
-					System.out.println("VER: " + version);
 				}
 				
 				Matcher matcher = pattern.matcher(version);
