@@ -168,16 +168,16 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 		try {
 			fromString(Bukkit.getBukkitVersion(), true);
 		} catch (NoSuchMethodError ex) {
-			// Beta 1.8.1 to Beta 1.7.3, at least
+			// Beta 1.8.1 to Beta 1.4
 			try {
-				Pattern pattern = Pattern.compile("^.*\\(MC: 1\\.(?<minor>\\d)(?:\\.(?<patch>\\d))?\\)$");
+				Pattern pattern = Pattern.compile("^.*\\(MC: 1\\.(?<minor>\\d)(?:\\.(?<patch>\\d)|_(?<uspatch>\\d+))?\\)$");
 
 				String version = null;
 				try {
 					// Beta 1.8 thru 1.8.1
 					version = Bukkit.getVersion();
 				} catch (NoSuchMethodError exx) {
-					// Beta 1.7.3, possibly earlier
+					// Beta 1.7.3 thru Beta 1.4
 					version = Bukkit.getServer().getVersion();
 				}
 				
@@ -192,6 +192,8 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 				minor = Integer.parseInt(matcher.group("minor"));
 				if (matcher.group("patch") != null) {
 					patch = Integer.parseInt(matcher.group("patch"));
+				} else if (matcher.group("uspatch") != null) {
+					patch = Integer.parseInt(matcher.group("uspatch"));
 				}
 			} catch (NoSuchMethodError exx) {
 				// This would be highly unusual
