@@ -50,18 +50,18 @@ import org.bukkit.Bukkit;
  *		// Grabs the server version automatically
  *		BukkitVersion version = new BukkitVersion();
  *		
- *		if (version.compareTo(new BukkitVersion("1.12.2-R0.1-SNAPSHOT")) == 0) {
+ *		if (version.isSameAs(new BukkitVersion("1.12.2-R0.1-SNAPSHOT"))) {
  *			getLogger().info("Running on Minecraft 1.12.2-R0.1-SNAPSHOT");
  *		}
  *
  *		// More typical format: specify just major.minor.patch
- *		if (version.compareTo(new BukkitVersion("b1.7.3", false)) &gt;= 0) {
+ *		if (version.isNoOlderThan(new BukkitVersion("b1.7.3", false))) {
  *			getLogger().info("Running on Beta 1.7.3 or above");
  *		}
  *
  *		// Comparison will stop at a certain point, in this case: minor version
  *		BukkitVersion ver = new BukkitVersion("1.8.8-R1.0-SNAPSHOT");
- *		if (version.compareTo(ver, BukkitVersion.Component.MINOR) &lt; 0) {
+ *		if (version.isOlderThan(ver, BukkitVersion.Component.MINOR)) {
  *			getLogger().info("Running below Minecraft 1.8");
  *		}
  *	}
