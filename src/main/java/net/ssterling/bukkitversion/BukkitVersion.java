@@ -620,4 +620,195 @@ public final class BukkitVersion implements Comparable<BukkitVersion>
 		// If none of the above matched, well, they’re the same
 		return 0;
 	}
+
+	/**
+	 * Determines whether a given Bukkit version is the same as
+	 * that contained in the object.
+	 *
+	 * @param	compare the object to which a comparison will be made
+	 *
+	 * @return	{@code true} if the version provided is the same as
+	 *		that provided, or {@code false} otherwise
+	 * @since 0.4.0
+	 */
+	boolean isSameAs(BukkitVersion compare)
+	{
+		return compareTo(compare) == 0;
+	}
+
+	/**
+	 * Determines whether a given Bukkit version is the same as
+	 * that contained in the object, ignoring any quantifiers
+	 * past that specified.
+	 *
+	 * @param	compare the object to which a comparison will be made
+	 * @param	granularity the least significant component of the
+	 *		version to be compared
+	 *
+	 * @return	ignoring any quantifiers less significant than that
+	 *		specified in the {@code granularity} parameter:
+	 *		{@code true} if the version provided is the same as
+	 *		that provided, or {@code false} otherwise
+	 * @since 0.4.0
+	 */
+	boolean isSameAs(BukkitVersion compare, Component granularity)
+	{
+		return compareTo(compare, granularity) == 0;
+	}
+
+	/**
+	 * Determines whether a given Bukkit version is newer than
+	 * that contained in the object.
+	 *
+	 * @param	compare the object to which a comparison will be made
+	 *
+	 * @return	{@code true} if the version provided is newer than
+	 *		that contained in the object, or {@code false}
+	 *		if the version provided is the same as or older than
+	 *		that contained in the object
+	 * @since 0.4.0
+	 */
+	boolean isNewerThan(BukkitVersion compare)
+	{
+		return compareTo(compare) > 0;
+	}
+
+	/**
+	 * Determines whether a given Bukkit version is newer than
+	 * that contained in the object, ignoring any quantifiers
+	 * past that specified.
+	 *
+	 * @param	compare the object to which a comparison will be made
+	 * @param	granularity the least significant component of the
+	 *		version to be compared
+	 *
+	 * @return	ignoring any quantifiers less significant than that
+	 *		specified in the {@code granularity} parameter:
+	 *		{@code true} if the version provided is newer than
+	 *		that contained in the object, or {@code false}
+	 *		if the version provided is the same as or older than
+	 *		that contained in the object
+	 * @since 0.4.0
+	 */
+	boolean isNewerThan(BukkitVersion compare, Component granularity)
+	{
+		return compareTo(compare, granularity) > 0;
+	}
+
+	/**
+	 * Determines whether a given Bukkit version is older than
+	 * that contained in the object.
+	 *
+	 * @param	compare the object to which a comparison will be made
+	 *
+	 * @return	{@code true} if the version provided is older than
+	 *		that contained in the object, or {@code false}
+	 *		if the version provided is the same as or newer than
+	 *		that contained in the object
+	 * @since 0.4.0
+	 */
+	boolean isOlderThan(BukkitVersion compare)
+	{
+		return compareTo(compare) < 0;
+	}
+
+	/**
+	 * Determines whether a given Bukkit version is older than
+	 * that contained in the object, ignoring any quantifiers
+	 * past that specified.
+	 *
+	 * @param	compare the object to which a comparison will be made
+	 * @param	granularity the least significant component of the
+	 *		version to be compared
+	 *
+	 * @return	ignoring any quantifiers less significant than that
+	 *		specified in the {@code granularity} parameter:
+	 *		{@code true} if the version provided is older than
+	 *		that contained in the object, or {@code false}
+	 *		if the version provided is the same as or newer than
+	 *		that contained in the object
+	 * @since 0.4.0
+	 */
+	boolean isOlderThan(BukkitVersion compare, Component granularity)
+	{
+		return compareTo(compare, granularity) < 0;
+	}
+
+	/**
+	 * Determines whether a given Bukkit version is newer than
+	 * or the same as that contained in the object.
+	 *
+	 * @param	compare the object to which a comparison will be made
+	 *
+	 * @return	{@code true} if the version provided is newer than
+	 *		or the same as that contained in the object,
+	 *		or {@code false} if the version provided is older than
+	 *		that contained in the object
+	 * @since 0.4.0
+	 */
+	boolean isNoOlderThan(BukkitVersion compare)
+	{
+		return compareTo(compare) >= 0;
+	}
+
+	/**
+	 * Determines whether a given Bukkit version is newer than
+	 * or the same as that contained in the object,
+	 * ignoring any quantifiers past that specified.
+	 *
+	 * @param	compare the object to which a comparison will be made
+	 * @param	granularity the least significant component of the
+	 *		version to be compared
+	 *
+	 * @return	ignoring any quantifiers less significant than that
+	 *		specified in the {@code granularity} parameter:
+	 *		{@code true} if the version provided is newer than
+	 *		or the same as that contained in the object, or
+	 *		{@code false} if the version provided is older than
+	 *		that contained in the object
+	 * @since 0.4.0
+	 */
+	boolean isNoOlderThan(BukkitVersion compare, Component granularity)
+	{
+		return compareTo(compare, granularity) >= 0;
+	}
+
+	/**
+	 * Determines whether a given Bukkit version is older than
+	 * or the same as that contained in the object.
+	 *
+	 * @param	compare the object to which a comparison will be made
+	 *
+	 * @return	{@code true} if the version provided is older than
+	 *		or the same as that contained in the object,
+	 *		or {@code false} if the version provided is newer than
+	 *		that contained in the object
+	 * @since 0.4.0
+	 */
+	boolean isNoNewerThan(BukkitVersion compare)
+	{
+		return compareTo(compare) <= 0;
+	}
+
+	/**
+	 * Determines whether a given Bukkit version is older than
+	 * or the same as that contained in the object,
+	 * ignoring any quantifiers past that specified.
+	 *
+	 * @param	compare the object to which a comparison will be made
+	 * @param	granularity the least significant component of the
+	 *		version to be compared
+	 *
+	 * @return	ignoring any quantifiers less significant than that
+	 *		specified in the {@code granularity} parameter:
+	 *		{@code true} if the version provided is newer than
+	 *		or the same as that contained in the object, or
+	 *		{@code false} if the version provided is newer than
+	 *		that contained in the object
+	 * @since 0.4.0
+	 */
+	boolean isNoNewerThan(BukkitVersion compare, Component granularity)
+	{
+		return compareTo(compare, granularity) <= 0;
+	}
 }

@@ -6,7 +6,7 @@
 
 	<name>BukkitVersion</name>
 	<description>Utilities for Minecraft server version info</description>
-	<version>0.3.2-SNAPSHOT</version>
+	<version>0.4.0-SNAPSHOT</version>
 	<url>https://www.gitlab.com/ssterling/bukkitversion/</url>
 
 	<properties>
