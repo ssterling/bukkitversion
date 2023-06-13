@@ -170,7 +170,7 @@
 	<distributionManagement>
 		<repository>
 			<id>ssterling-repo</id>
-			<url>ftp://maven@peridot.ssterling.net/</url>
+			<url>ftp://maven@mabel.ssterling.net/</url>
 		</repository>
 	</distributionManagement>
 
